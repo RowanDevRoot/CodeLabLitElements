@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>workshop-cards-lit-dm demo</title>
+    <script src="../build/webcomponents-loader.js"></script>
+    <script src="../build/scoping-ambients-shim.min.js"></script>
+    <script src="../build/custom-style-interface.min.js"></script>
+    <script>
+      {
+        const _customElementsDefine = window.customElements.define;
+        window.customElements.define = (name, cl, conf) => {
+          if (customElements.get(name)) {
+            console.warn(`${name} has been defined twice`);
+          } else {
+            _customElementsDefine.call(window.customElements, name, cl, conf);
+          }
+        };
+      }
+    </script>
+    <script defer src="../build/component.js"></script>
+    <script type="module" crossorigin="use-credentials">
+      import '../build/demo-build.js';
+    </script>
+  </head>
+
+  <body>
+    <bbva-core-demo-helper  events='["cards-list", "request-error"]'>
+      <bbva-core-demo-case heading="Basic" description="Default specs">
+        <template>
+          <workshop-cards-lit-dm id="cards-dm"></workshop-cards-lit-dm>
+          <login-dm id="login"></login-dm>
+          <bbva-button-default id="cards-btn">Cargar Cards</bbva-button-default>
+          <div id="loading" hidden>Obteniendo cards</div>
+          <script>
+            const cards = document.querySelector('#cards-dm');
+            const loginDm = document.querySelector('#login');
+            const btn = document.querySelector('#cards-btn');
+            const loading = document.querySelector('#loading');
+       
+            loginDm.host = cards.host = 'https://artichoke.platform.bbva.com';
+            loginDm.body = {"userId": "1234567890", "password": "112233", "consumerId": "10000033"};
+            btn.addEventListener('click', () => {
+           btn.disabled = true;
+           loading.hidden = false;
+           loginDm.login();
+           loginDm.addEventListener('login-request-success', () => {
+             cards.getCards();
+           });
+         });
+    
+         cards.addEventListener('cards-list', () => {
+           loading.hidden = true;
+           btn.disabled = false;
+         });
+
+         cards.addEventListener('request-error', () => {
+           loading.hidden = true;
+           btn.disabled = false;
+         });
+</script>
+       </template>
+     </bbva-core-demo-case>
+   </bbva-core-demo-helper>   
+        </template>
+      </bbva-core-demo-case>
+    </bbva-core-demo-helper>
+  </body>
+</html>

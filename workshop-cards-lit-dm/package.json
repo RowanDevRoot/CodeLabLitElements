@@ -1,0 +1,15 @@
+{
+  "name": "@training/workshop-cards-lit-dm",
+  "version": "1.0.0-rc.1",
+  "description": "",
+  "keywords": [],
+  "main": "index.js",
+  "dependencies": {
+    "@bbva-web-components/bbva-core-lit-helpers": "^1.0.0",
+    "@ca-mx/login-dm": "git+ssh://git@globaldevtools.bbva.com:7999/ntunc/login-dm.git",
+    "lit-element": "^2.0.0"
+  },
+  "devDependencies": {
+    "@cells/cells-component-core": "^3.0.0"
+  }
+}
